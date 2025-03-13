@@ -1,5 +1,5 @@
 # solid-golang
-This is a repository about the implementation of the SOLID principles in Go ( golang )
+This is how to implementation of the SOLID principles in Go ( golang )
 
 1. Single Responsibility Principle (SRP)
 2. Open/Closed Principle (OCP)
