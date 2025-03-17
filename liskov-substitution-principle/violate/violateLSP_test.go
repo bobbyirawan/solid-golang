@@ -1,38 +1,52 @@
-package liskovsubstitutionprinciple
+package violate
 
 import (
 	"fmt"
 	"testing"
 )
 
-// Bird interface
-type Bird interface {
-	Fly()
+// Rectangle struct
+type Rectangle struct {
+	Width  float64
+	Height float64
 }
 
-// Sparrow can fly
-type Sparrow struct{}
-
-func (s Sparrow) Fly() {
-	fmt.Println("Sparrow is flying!")
+// Method to set width
+func (r *Rectangle) SetWidth(w float64) {
+	r.Width = w
 }
 
-// Penguin cannot fly, violating LSP
-type Penguin struct{}
-
-func (p Penguin) Fly() {
-	panic("Penguins can't fly!") // ❌ Unexpected behavior!
+// Method to set height
+func (r *Rectangle) SetHeight(h float64) {
+	r.Height = h
 }
 
-// Function to make a bird fly
-func MakeBirdFly(b Bird) {
-	b.Fly() // ❌ If a Penguin is passed, it will cause a runtime error
+// Method to calculate area
+func (r Rectangle) Area() float64 {
+	return r.Width * r.Height
 }
 
-func TestBadLSP(t *testing.T) {
-	sparrow := Sparrow{}
-	// penguin := Penguin{}
+// Square struct inherits Rectangle
+type Square struct {
+	Rectangle
+}
 
-	MakeBirdFly(sparrow) // ✅ Works fine
-	// MakeBirdFly(penguin) // ❌ Violates LSP (crashes the program)
+// Override SetWidth and SetHeight to maintain square properties
+func (s *Square) SetWidth(w float64) {
+	s.Width = w
+	s.Height = w // Force height to be same as width
+}
+
+func (s *Square) SetHeight(h float64) {
+	s.Width = h
+	s.Height = h // Force width to be same as height
+}
+
+func TestLSP(t *testing.T) {
+	//var r Rectangle = Square{} // ❌ LSP Violation!
+	// r.SetWidth(10)
+	// r.SetHeight(20)
+
+	fmt.Println("Expected Area: 10 * 20 = 200")
+	// fmt.Println("Actual Area:", r.Area()) // ❌ Incorrect output!
 }
